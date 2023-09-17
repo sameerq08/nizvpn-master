@@ -1,17 +1,13 @@
-/*
- * Copyright (c) 2020 Mochamad Nizwar Syafuan
- * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
- */
-
-import 'dart:developer';
+//import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_nizvpn/core/models/dnsConfig.dart';
 import 'package:open_nizvpn/core/models/vpnConfig.dart';
-import 'package:open_nizvpn/core/models/vpnStatus.dart';
+//import 'package:open_nizvpn/core/models/vpnStatus.dart';
 import 'package:open_nizvpn/core/utils/nizvpn_engine.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:open_nizvpn/widgets/home_card.dart';
 
 late Size mq;
 
@@ -79,63 +75,75 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: mq.height * .02,
-          ),
-          _vpnButton(),
-          Center(
-            child: TextButton(
-              style: TextButton.styleFrom(
-                shape: StadiumBorder(),
-                backgroundColor: Theme.of(context).primaryColor,
+      body: Column(mainAxisSize: MainAxisSize.min, children: [
+        SizedBox(
+          height: mq.height * .02,
+          width: double.maxFinite,
+        ),
+        _vpnButton(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            HomeCard(
+              title: 'Country',
+              subtitle: 'Free',
+              icon: CircleAvatar(
+                radius: 30,
+                child: Icon(
+                  Icons.vpn_lock_rounded,
+                  size: 30,
+                ),
               ),
-              child: Text(
-                _vpnState == NizVpn.vpnDisconnected
-                    ? "Connect VPN!"
-                    : _vpnState.replaceAll("_", " ").toUpperCase(),
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: _connectClick,
             ),
-          ),
-          StreamBuilder<VpnStatus?>(
-            initialData: VpnStatus(),
-            stream: NizVpn.vpnStatusSnapshot(),
-            builder: (context, snapshot) => Text(
-                "${snapshot.data?.byteIn ?? ""}, ${snapshot.data?.byteOut ?? ""}",
-                textAlign: TextAlign.center),
-          )
-        ]
-          //i just make it simple, hope i'm not making you to much confuse
-          ..addAll(
-            _listVpn.isNotEmpty
-                ? _listVpn.map(
-                    (e) => ListTile(
-                      title: Text(e.name),
-                      leading: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: Center(
-                            child: _selectedVpn == e
-                                ? CircleAvatar(backgroundColor: Colors.green)
-                                : CircleAvatar(backgroundColor: Colors.grey)),
-                      ),
-                      onTap: () {
-                        if (_selectedVpn == e) return;
-                        log("${e.name} is selected");
-                        NizVpn.stopVpn();
-                        setState(() {
-                          _selectedVpn = e;
-                        });
-                      },
-                    ),
-                  )
-                : [],
-          ),
-      ),
+            HomeCard(
+              title: '100 ms',
+              subtitle: 'Ping',
+              icon: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.orange,
+                child: Icon(
+                  Icons.equalizer_rounded,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: mq.height * .02,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            HomeCard(
+              title: '0 kbps',
+              subtitle: 'Download',
+              icon: CircleAvatar(
+                radius: 30,
+                child: Icon(
+                  Icons.arrow_downward_rounded,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            HomeCard(
+              title: '0 kbps',
+              subtitle: 'Upload',
+              icon: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.orange,
+                child: Icon(
+                  Icons.arrow_upward_rounded,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        )
+      ]),
     );
   }
 
@@ -208,12 +216,13 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: mq.height * .015),
+            margin:
+                EdgeInsets.only(top: mq.height * .015, bottom: mq.height * .02),
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             decoration: BoxDecoration(
                 color: Colors.blue, borderRadius: BorderRadius.circular(15)),
             child: Text(
-              'Disconnect',
+              'Not Connected',
               style: TextStyle(
                 fontSize: 12.5,
                 color: Colors.white,
