@@ -2,11 +2,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:open_nizvpn/core/models/dnsConfig.dart';
 import 'package:open_nizvpn/core/models/vpnConfig.dart';
 //import 'package:open_nizvpn/core/models/vpnStatus.dart';
 import 'package:open_nizvpn/core/utils/nizvpn_engine.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:open_nizvpn/screens/location_screen.dart';
+import 'package:open_nizvpn/widgets/count_down_timer.dart';
 import 'package:open_nizvpn/widgets/home_card.dart';
 
 late Size mq;
@@ -20,6 +23,8 @@ class _MainScreenState extends State<MainScreen> {
   String _vpnState = NizVpn.vpnDisconnected;
   List<VpnConfig> _listVpn = [];
   VpnConfig? _selectedVpn;
+
+  final RxBool _startTimer = false.obs;
 
   @override
   void initState() {
@@ -75,11 +80,8 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: Column(mainAxisSize: MainAxisSize.min, children: [
-        SizedBox(
-          height: mq.height * .02,
-          width: double.maxFinite,
-        ),
+      bottomNavigationBar: _changeLocation(),
+      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         _vpnButton(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,9 +112,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
-        SizedBox(
-          height: mq.height * .02,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -121,6 +120,7 @@ class _MainScreenState extends State<MainScreen> {
               subtitle: 'Download',
               icon: CircleAvatar(
                 radius: 30,
+                backgroundColor: Colors.lightGreen,
                 child: Icon(
                   Icons.arrow_downward_rounded,
                   size: 30,
@@ -169,7 +169,9 @@ class _MainScreenState extends State<MainScreen> {
           Semantics(
             button: true,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                _startTimer.value = !_startTimer.value;
+              },
               borderRadius: BorderRadius.circular(100),
               child: Container(
                 padding: EdgeInsets.all(16),
@@ -202,7 +204,7 @@ class _MainScreenState extends State<MainScreen> {
                           height: 4,
                         ),
                         Text(
-                          'Tap to Connect VPN',
+                          'Tap to Connect',
                           style: TextStyle(
                               fontSize: 12.5,
                               color: Colors.white,
@@ -228,7 +230,48 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.white,
               ),
             ),
-          )
+          ),
+          Obx(() => CountDownTimer(startTimer: _startTimer.value)),
         ],
+      );
+  Widget _changeLocation() => SafeArea(
+        child: Semantics(
+          button: true,
+          child: InkWell(
+            onTap: () => Get.to(() => LocationScreen()),
+            child: Container(
+              color: Colors.blue,
+              padding: EdgeInsets.symmetric(horizontal: mq.width * .04),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.globe,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Change Location',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Spacer(),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.keyboard_arrow_right_rounded,
+                      color: Colors.blue,
+                      size: 26,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       );
 }
