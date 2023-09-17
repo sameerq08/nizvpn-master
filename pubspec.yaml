@@ -16,6 +16,8 @@ dependencies:
   get: ^4.6.5
   cupertino_icons: ^1.0.2
   http: ^1.1.0
+  csv: ^5.0.2
+  lottie: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +27,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - "assets/"
-    - "assets/vpn/"
-    - "assets/images/"
+    - assets/
+    - assets/vpn/
+    - assets/images/
+    - assets/lottie/
