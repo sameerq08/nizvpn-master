@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../apis/controller/location_controller.dart';
+import '../widgets/vpn_card.dart';
 
 late Size mq;
 
@@ -46,7 +47,13 @@ class _LocationScreenState extends State<LocationScreen> {
 
   _vpnData() => ListView.builder(
         itemCount: _controller.vpnList.length,
-        itemBuilder: (ctx, i) => Text(_controller.vpnList[i].ip),
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.only(
+            top: mq.height * .015,
+            bottom: mq.height * .1,
+            left: mq.width * .04,
+            right: mq.width * .04),
+        itemBuilder: (ctx, i) => VpnCard(vpn: _controller.vpnList[i]),
       );
 
   _loadingWidget() => SizedBox(
