@@ -48,11 +48,13 @@ public class MainActivity extends FlutterActivity {
     private EventChannel.EventSink vpnStageSink;
     private EventChannel.EventSink vpnStatusSink;
 
-    private static final String EVENT_CHANNEL_VPN_STAGE = "id.nizwar.nvpn/vpnstage";
-    private static final String EVENT_CHANNEL_VPN_STATUS = "id.nizwar.nvpn/vpnstatus";
-    private static final String METHOD_CHANNEL_VPN_CONTROL = "id.nizwar.nvpn/vpncontrol";
+    private static final String EVENT_CHANNEL_VPN_STAGE = "vpnStage";
+    private static final String EVENT_CHANNEL_VPN_STATUS = "vpnStatus";
+    private static final String METHOD_CHANNEL_VPN_CONTROL = "vpnControl";
     private static final int VPN_REQUEST_ID = 1;
-    private static final String TAG = "NVPN";
+    private static final String TAG = "VPN";
+
+    
 
     private VpnProfile vpnProfile;
 
