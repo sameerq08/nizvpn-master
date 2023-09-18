@@ -30,21 +30,23 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Secure Proxy VPN"),
-      ),
-      body: Obx(() => _controller.isLoading.value
-          ? _loadingWidget()
-          : _controller.vpnList.isEmpty
-              ? _noVPNFound()
-              : _vpnData()),
+
+    return Obx(
+      () => Scaffold(
+          appBar: AppBar(
+            title: Text('VPN Locations (${_controller.vpnList.length})'),
+          ),
+          body: _controller.isLoading.value
+              ? _loadingWidget()
+              : _controller.vpnList.isEmpty
+                  ? _noVPNFound()
+                  : _vpnData()),
     );
   }
 
   _vpnData() => ListView.builder(
         itemCount: _controller.vpnList.length,
-        itemBuilder: (ctx, i) => Text(_controller.vpnList[i].hostname),
+        itemBuilder: (ctx, i) => Text(_controller.vpnList[i].ip),
       );
 
   _loadingWidget() => SizedBox(

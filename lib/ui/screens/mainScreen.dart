@@ -3,11 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:open_nizvpn/core/models/dnsConfig.dart';
-import 'package:open_nizvpn/core/models/vpnConfig.dart';
+//import 'package:open_nizvpn/core/models/dnsConfig.dart';
+//import 'package:open_nizvpn/core/models/vpnConfig.dart';
 //import 'package:open_nizvpn/core/models/vpnStatus.dart';
-import 'package:open_nizvpn/core/utils/nizvpn_engine.dart';
-import 'package:flutter/services.dart' show rootBundle;
+//import 'package:open_nizvpn/core/utils/nizvpn_engine.dart';
+//import 'package:flutter/services.dart' show rootBundle;
 import 'package:open_nizvpn/screens/location_screen.dart';
 import 'package:open_nizvpn/widgets/count_down_timer.dart';
 import 'package:open_nizvpn/widgets/home_card.dart';
@@ -20,12 +20,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String _vpnState = NizVpn.vpnDisconnected;
-  List<VpnConfig> _listVpn = [];
-  VpnConfig? _selectedVpn;
+  //String _vpnState = NizVpn.vpnDisconnected;
+  //List<VpnConfig> _listVpn = [];
+  //VpnConfig? _selectedVpn;
 
   final RxBool _startTimer = false.obs;
-
+/*
   @override
   void initState() {
     super.initState();
@@ -53,7 +53,7 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         _selectedVpn = _listVpn.first;
       });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
       ]),
     );
   }
-
+/*
   void _connectClick() {
     ///Stop right here if user not select a vpn
     if (_selectedVpn == null) return;
@@ -161,7 +161,7 @@ class _MainScreenState extends State<MainScreen> {
       ///Stop if stage is "not" disconnected
       NizVpn.stopVpn();
     }
-  }
+  }*/
 
   // VPN Button
   Widget _vpnButton() => Column(
